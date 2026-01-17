@@ -1,0 +1,32 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+.env
+/playwright/.auth/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Allure
+allure-results/
+allure-report/

@@ -1,0 +1,46 @@
+{
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.9",
+    "allure-commandline": "^2.36.0",
+    "allure-playwright": "^3.4.5",
+    "dotenv": "^17.2.3",
+    "rimraf": "^6.1.2",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:clean": "rimraf allure-results && playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "report:generate": "allure generate allure-results -o allure-report --clean",
+    "report:open": "allure open allure-report",
+    "report:clean": "rimraf allure-results",
+    "clean:all": "rimraf allure-results allure-report test-results",
+    "clean:reports": "rimraf allure-results allure-report"
+  },
+  "name": "petstore-automation-framework",
+  "version": "1.0.0",
+  "description": "Enterprise-grade API Automation Framework using Playwright and TypeScript for Petstore API",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "fsevents": "^2.3.2",
+    "playwright": "^1.57.0",
+    "playwright-core": "^1.57.0",
+    "undici-types": "^7.16.0"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "api-testing",
+    "automation",
+    "qa",
+    "allure-report"
+  ],
+  "author": "Yogatama",
+  "license": "ISC",
+  "type": "commonjs"
+}

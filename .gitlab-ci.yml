@@ -1,0 +1,38 @@
+image: node:18
+
+stages:
+  - test
+  - report
+
+cache:
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: .pre
+  script:
+    - npm ci
+
+test_api:
+  stage: test
+  script:
+    - npx playwright install --with-deps
+    # Run tests and ensure it doesn't fail pipeline immediately if you want to generate report
+    - npm test || true 
+  artifacts:
+    when: always
+    paths:
+      - allure-results/
+    expire_in: 1 day
+
+pages:
+  stage: report
+  script:
+    - npm run report:generate
+    - mkdir -p public
+    - cp -r allure-report/* public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

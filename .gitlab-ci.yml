@@ -23,6 +23,8 @@ test_api:
 pages:
   stage: report
   script:
+    - apt-get update && apt-get install -y default-jre
+    - npm ci
     - npm run report:generate
     - mkdir -p public
     - cp -r allure-report/* public/

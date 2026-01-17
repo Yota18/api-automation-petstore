@@ -1,24 +1,19 @@
-image: node:18
+image: mcr.microsoft.com/playwright:v1.57.0-jammy
 
 stages:
   - test
   - report
 
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-
-install_dependencies:
-  stage: .pre
-  script:
-    - npm ci
 
 test_api:
   stage: test
   script:
-    - npx playwright install --with-deps
-    # Run tests and ensure it doesn't fail pipeline immediately if you want to generate report
-    - npm test || true 
+    - npm ci
+    - npx playwright test
   artifacts:
     when: always
     paths:

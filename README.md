@@ -180,7 +180,20 @@ import { PetService } from '@/api/services/pet/PetService'
 - **SQL Injection** - Verify resilience against SQLi in parameters
 - **DoS Prevention** - Large payload handling checks
 
-## 💡 Best Practices Implemented
+## � CI/CD Integration
+
+This project is configured with **GitLab CI/CD** for automated testing.
+
+### Pipeline Workflow
+The pipeline is defined in `.gitlab-ci.yml` and consists of two stages:
+1. **Test**: Runs the full regression suite using the official `mcr.microsoft.com/playwright` Docker image to ensure environment consistency.
+2. **Report**: Generates an Allure Report and publishes it to GitLab Pages (requires Java).
+
+### Artifacts
+- **Allure Results**: Stored for 1 day.
+- **GitLab Pages**: Hosts the visual test report.
+
+## �💡 Best Practices Implemented
 
 1. **Separation of Concerns** - Clear separation between services, types, helpers, and tests
 2. **Type Safety** - Comprehensive TypeScript interfaces
@@ -248,9 +261,10 @@ test('Create order', async ({ request }) => {
 - **Cleanup**: Tests should clean up created resources
 
 ## 📄 License
+This project is for portfolio demonstration purposes.
 
 ISC
 
 ---
 
-**Built with ❤️ by Senior QA Engineer**
+**Built with ❤️ using Playwright, TypeScript, and Allure**

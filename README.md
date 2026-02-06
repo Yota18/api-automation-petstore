@@ -1,4 +1,4 @@
-# Petstore API Automation Framework
+# Playwright Portfolio: API Automation With Petstore
 
 A scalable, maintainable API automation framework for the Petstore API (https://petstore.swagger.io/) built with TypeScript, Playwright Test, and Allure Report.
 

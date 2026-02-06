@@ -11,34 +11,60 @@ petstore/
 ├── src/
 │   ├── api/                          # API layer
 │   │   ├── services/                 # Service classes
-│   │   │   ├── base/                 # Base services
-│   │   │   │   └── BaseService.ts
-│   │   │   └── pet/                  # Pet-related services
-│   │   │       └── PetService.ts
+│   │   │   ├── base/
+│   │   │   │   └── BaseService.ts    # Foundation class for all services
+│   │   │   ├── pet/
+│   │   │   │   └── PetService.ts     # Pet CRUD operations
+│   │   │   ├── store/
+│   │   │   │   └── StoreService.ts   # Store/Order operations
+│   │   │   └── user/
+│   │   │       └── UserService.ts    # User management operations
 │   │   └── types/                    # TypeScript interfaces
 │   │       ├── index.ts              # Barrel export
-│   │       └── pet.types.ts          # Pet-related types
+│   │       ├── pet.types.ts          # Pet-related types
+│   │       ├── store.types.ts        # Store/Order types
+│   │       └── user.types.ts         # User types
 │   │
 │   ├── config/                       # Configuration management
 │   │   ├── index.ts                  # Main config
 │   │   └── endpoints.ts              # API endpoints constants
 │   │
+│   ├── constants/                    # Application constants
+│   │   ├── index.ts                  # Barrel export
+│   │   ├── httpStatus.ts             # HTTP status codes
+│   │   └── messages.ts               # Response messages
+│   │
 │   ├── helpers/                      # Helper functions
-│   │   ├── api.helper.ts             # API-related helpers
-│   │   └── data.helper.ts            # Data manipulation helpers
+│   │   └── api.helper.ts             # API-related helpers
 │   │
-│   ├── fixtures/                     # Test data & fixtures
-│   │   ├── data/                     # Static test data
-│   │   │   └── pet.data.ts
-│   │   └── factories/                # Data factories
-│   │       └── pet.factory.ts
+│   ├── utils/                        # Utility functions
+│   │   ├── index.ts                  # Barrel export
+│   │   └── common.utils.ts           # Common utilities
 │   │
-│   │
-│   └── tests/                        # Test suites
-│       └── api/                      # API tests
-│           └── pet/                  # Pet endpoint tests
-│               └── pet.spec.ts
+│   └── fixtures/                     # Test data & fixtures
+│       ├── data/                     # Static test data
+│       │   ├── pet.data.ts
+│       │   ├── order.data.ts
+│       │   └── user.data.ts
+│       └── factories/                # Data factories
+│           ├── pet.factory.ts
+│           ├── order.factory.ts
+│           └── user.factory.ts
 │
+├── tests/                            # Test suites
+│   └── api/                          # API tests
+│       ├── pet/
+│       │   └── pet.spec.ts           # Pet API tests
+│       ├── store/
+│       │   └── store.spec.ts         # Store API tests
+│       ├── user/
+│       │   └── user.spec.ts          # User API tests
+│       └── security/
+│           └── security.spec.ts      # Security validation tests
+│
+├── .github/workflows/                # GitHub Actions CI/CD
+│   └── playwright.yml
+├── .gitlab-ci.yml                    # GitLab CI/CD
 ├── playwright.config.ts              # Playwright configuration
 ├── tsconfig.json                     # TypeScript config with path aliases
 └── package.json                      # Dependencies and scripts
@@ -103,9 +129,13 @@ npm run report:open
 **Services** - Encapsulates all API operations
 - `BaseService.ts` - Foundation class for all services
 - `PetService.ts` - Pet CRUD operations
+- `StoreService.ts` - Store/Order operations
+- `UserService.ts` - User management operations
 
 **Types** - TypeScript interfaces for type safety
 - `pet.types.ts` - Pet-related interfaces
+- `store.types.ts` - Store/Order interfaces
+- `user.types.ts` - User interfaces
 - `index.ts` - Barrel exports for easy imports
 
 ### Configuration (`src/config/`)
@@ -113,22 +143,30 @@ Centralized configuration management:
 - `endpoints.ts` - API endpoint constants
 - `index.ts` - Test configuration settings
 
+### Constants (`src/constants/`)
+Application-wide constants:
+- `httpStatus.ts` - HTTP status code constants
+- `messages.ts` - Response message constants
+
 ### Helpers (`src/helpers/`)
 Reusable utility functions:
 - `api.helper.ts` - Response validation, error handling
-- `data.helper.ts` - Data generation, manipulation
+
+### Utils (`src/utils/`)
+Common utility functions:
+- `common.utils.ts` - General purpose utilities
 
 ### Fixtures (`src/fixtures/`)
 Test data management:
-- `factories/pet.factory.ts` - Dynamic data generation
-- `data/pet.data.ts` - Static test data and constants
+- `factories/*.factory.ts` - Dynamic data generation (pet, order, user)
+- `data/*.data.ts` - Static test data and constants
 
-### Tests (`src/tests/`)
+### Tests (`tests/api/`)
 Organized by API and feature:
-- `api/pet/pet.spec.ts` - Pet API test suite
-- `api/user/user.spec.ts` - User API test suite
-- `api/store/store.spec.ts` - Store API test suite
-- `api/security/security.spec.ts` - Security validation suite
+- `pet/pet.spec.ts` - Pet API test suite
+- `store/store.spec.ts` - Store API test suite
+- `user/user.spec.ts` - User API test suite
+- `security/security.spec.ts` - Security validation suite
 
 ## 🎯 Import Aliases
 
@@ -145,9 +183,10 @@ import { PetService } from '@/api/services/pet/PetService'
 **Available Aliases:**
 - `@/api/*` → `src/api/*`
 - `@/config/*` → `src/config/*`
+- `@/constants/*` → `src/constants/*`
 - `@/helpers/*` → `src/helpers/*`
+- `@/utils/*` → `src/utils/*`
 - `@/fixtures/*` → `src/fixtures/*`
-- `@/tests/*` → `src/tests/*`
 
 ## 🔍 Test Scenarios
 
@@ -180,20 +219,28 @@ import { PetService } from '@/api/services/pet/PetService'
 - **SQL Injection** - Verify resilience against SQLi in parameters
 - **DoS Prevention** - Large payload handling checks
 
-## � CI/CD Integration
+## 🚀 CI/CD Integration
 
-This project is configured with **GitLab CI/CD** for automated testing.
+This project supports both **GitHub Actions** and **GitLab CI/CD**.
 
-### Pipeline Workflow
-The pipeline is defined in `.gitlab-ci.yml` and consists of two stages:
-1. **Test**: Runs the full regression suite using the official `mcr.microsoft.com/playwright` Docker image to ensure environment consistency.
-2. **Report**: Generates an Allure Report and publishes it to GitLab Pages (requires Java).
+### GitHub Actions
+Workflow is defined in `.github/workflows/playwright.yml`:
+- **Trigger**: Manual only (workflow_dispatch)
+- **Runner**: Ubuntu latest with Node.js LTS
+- **Steps**: Install dependencies → Run Playwright tests → Upload report
+- **Artifacts**: Playwright report stored for 30 days
 
-### Artifacts
-- **Allure Results**: Stored for 1 day.
-- **GitLab Pages**: Hosts the visual test report.
+To run manually:
+1. Go to **Actions** tab
+2. Select **Playwright Tests**
+3. Click **Run workflow**
 
-## �💡 Best Practices Implemented
+### GitLab CI/CD
+Pipeline is defined in `.gitlab-ci.yml`:
+1. **Test**: Runs the full regression suite using official Playwright Docker image
+2. **Report**: Generates Allure Report and publishes to GitLab Pages
+
+## 💡 Best Practices Implemented
 
 1. **Separation of Concerns** - Clear separation between services, types, helpers, and tests
 2. **Type Safety** - Comprehensive TypeScript interfaces
@@ -207,48 +254,47 @@ The pipeline is defined in `.gitlab-ci.yml` and consists of two stages:
 
 ### Adding a New Endpoint
 
-1. **Create Types** (`src/api/types/store.types.ts`):
+1. **Create Types** (`src/api/types/newEntity.types.ts`):
 ```typescript
-export interface Order {
+export interface NewEntity {
   id: number;
-  petId: number;
-  quantity: number;
-  status: string;
+  name: string;
+  // ... other fields
 }
 ```
 
 2. **Add Endpoints** (`src/config/endpoints.ts`):
 ```typescript
-export const STORE_ENDPOINTS = {
-  ORDER: 'store/order',
-  ORDER_BY_ID: (id: number) => `store/order/${id}`
+export const NEW_ENTITY_ENDPOINTS = {
+  BASE: 'newEntity',
+  BY_ID: (id: number) => `newEntity/${id}`
 };
 ```
 
-3. **Create Service** (`src/api/services/store/StoreService.ts`):
+3. **Create Service** (`src/api/services/newEntity/NewEntityService.ts`):
 ```typescript
 import { BaseService } from '../base/BaseService';
 
-export class StoreService extends BaseService {
-  async placeOrder(order: Order): Promise<APIResponse> {
-    return await this.request.post(STORE_ENDPOINTS.ORDER, { data: order });
+export class NewEntityService extends BaseService {
+  async create(data: NewEntity): Promise<APIResponse> {
+    return await this.request.post(NEW_ENTITY_ENDPOINTS.BASE, { data });
   }
 }
 ```
 
-4. **Create Factory** (`src/fixtures/factories/store.factory.ts`):
+4. **Create Factory** (`src/fixtures/factories/newEntity.factory.ts`):
 ```typescript
-export function createOrderData(overrides = {}) {
-  return { id: Date.now(), petId: 1, quantity: 1, ...overrides };
+export function createNewEntityData(overrides = {}) {
+  return { id: Date.now(), name: 'Test Entity', ...overrides };
 }
 ```
 
-5. **Write Tests** (`src/tests/api/store/order.spec.ts`):
+5. **Write Tests** (`tests/api/newEntity/newEntity.spec.ts`):
 ```typescript
-import { StoreService } from '@/api/services/store/StoreService';
+import { NewEntityService } from '@/api/services/newEntity/NewEntityService';
 
-test('Create order', async ({ request }) => {
-  const service = new StoreService(request);
+test('Create entity', async ({ request }) => {
+  const service = new NewEntityService(request);
   // ... test logic
 });
 ```
@@ -259,4 +305,3 @@ test('Create order', async ({ request }) => {
 - **Endpoint Paths**: Should be relative without leading slash (e.g., `'pet'` not `'/pet'`)
 - **Test Data**: Use factory functions to generate unique data
 - **Cleanup**: Tests should clean up created resources
-

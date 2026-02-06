@@ -260,11 +260,3 @@ test('Create order', async ({ request }) => {
 - **Test Data**: Use factory functions to generate unique data
 - **Cleanup**: Tests should clean up created resources
 
-## 📄 License
-This project is for portfolio demonstration purposes.
-
-ISC
-
----
-
-**Built with ❤️ using Playwright, TypeScript, and Allure**
